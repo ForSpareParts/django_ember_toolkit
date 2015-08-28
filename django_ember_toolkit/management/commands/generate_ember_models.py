@@ -2,9 +2,14 @@ import subprocess
 
 from django.apps import apps as django_apps
 from django.conf import settings
+from inflection import dasherize, underscore
 
-from .base import EmberCommand
+from ._base import EmberCommand
 
+def model_to_command_args(Model):
+    '''Take a model class and return a list of args that will create an
+    equivalent model in Ember.'''
+    return ['generate', 'model', dasherize(underscore(Model.__name__)),]
 
 class Command(EmberCommand):
     help = 'Generate Ember models based on Django models from INSTALLED APPS'
@@ -23,7 +28,10 @@ class Command(EmberCommand):
                 if key in model_name_set or app_star in model_name_set:
                     model_set.add(Model)
 
-        self.notify('Generating Ember models for: '
+        self.notify('Generating Ember models for: ' +
             ', '.join([
-                Model.app_label + '.' + Model.__name__
+                Model._meta.app_label + '.' + Model.__name__
                 for Model in model_set]))
+
+        for Model in model_set:
+            print(model_to_command_args(Model))

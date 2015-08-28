@@ -2,7 +2,7 @@ import subprocess
 
 from django.conf import settings
 
-from .base import EmberCommand
+from ._base import EmberCommand
 
 
 class Command(EmberCommand):
