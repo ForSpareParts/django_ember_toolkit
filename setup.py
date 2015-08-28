@@ -46,7 +46,7 @@ def read(fname):
         return ''
 
 setup(
-    name="django-ember-toolkit",
+    name="django_ember_toolkit",
     version=app.__version__,
     description=read('DESCRIPTION'),
     long_description=read('README.rst'),
