@@ -1,37 +1,33 @@
-from os.path import join
 import subprocess
 
-from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
 
-from . import utils as ember_utils
-from .utils import (
-    SEPARATOR, run_ember_command, assert_required_settings,
-    get_setting, write_initial_config, get_full_ember_path)
+from .base import EmberCommand
 
 
-class Command(BaseCommand):
+class Command(EmberCommand):
     help = 'Generate a new Ember app for use with your Django project'
 
     def handle(self, *args, **options):
-        assert_required_settings('EMBER_APP_NAME')
+        self.assert_required_settings('EMBER_APP_NAME')
 
-        print(SEPARATOR)
-        print('Generating new Ember project at: ')
-        print(get_full_ember_path())
-        print(SEPARATOR)
+        self.notify(
+            'Generating new Ember project at: \n' +
+            self.get_full_ember_path())
 
         # create the project using ember-cli
         subprocess.check_call(
             [
-                'ember', 'new', get_setting('EMBER_APP_NAME'),
-                '--dir', get_full_ember_path()
-            ])
+                'ember', 'new', self.get_setting('EMBER_APP_NAME'),
+                '--dir', self.get_full_ember_path()
+            ],
+            cwd=settings.BASE_DIR)
 
         # install and scaffold the Ember adapter for Django REST Framework
-        run_ember_command('install', 'ember-django-adapter')
+        self.run_ember_command('install', 'ember-django-adapter')
 
-        run_ember_command('generate', 'drf-adapter', 'application')
-        run_ember_command('generate', 'drf-serializer', 'application')
+        self.run_ember_command('generate', 'drf-adapter', 'application')
+        self.run_ember_command('generate', 'drf-serializer', 'application')
 
         # install the modified config file
-        write_initial_config()
+        self.write_initial_config()
