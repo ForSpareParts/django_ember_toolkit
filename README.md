@@ -5,13 +5,13 @@ Tools to integrate develop an Ember app using Django as the backend.
 
 It can:
 
-    *   Generate an Ember app inside your Django project
-    *   Preconfigure said app to expect Django REST Framework's JSON data
-        format
-    *   Automatically generate Ember models based on your Django models
-    *   Run Ember automatically alongside your Django development server,
-        configuring the Ember app to look for an API endpoint specified in
-        Django's `settings.py`.
+*   Generate an Ember app inside your Django project
+*   Preconfigure said app to expect Django REST Framework's JSON data
+     format
+*   Automatically generate Ember models based on your Django models
+*   Run Ember automatically alongside your Django development server,
+     configuring the Ember app to look for an API endpoint specified in
+     Django's `settings.py`.
 
 It makes very few Django-specific changes to the internal Ember project, which
 should make it easier to separate the two projects later, if you outgrow the
@@ -35,15 +35,15 @@ Configuration
 django_ember_toolkit looks in `settings.EMBER_TOOLKIT` for a configuration
 dictionary containing:
 
-{
-    "API_PATH": "/path/to/api", #the URL at which Ember can find your REST API
-    "EMBER_APP_NAME": "some-name", #the name ember-cli should give your app
-    "EMBER_APP_PATH": "client", # optional: the filesystem path, relative to
-                                # BASE_DIR, where the Ember project should be
-                                # stored
-    "MODELS_TO_SYNC": ["auth.*", "myapp.Widget"] #  models to use when
-                                                    generating Ember models
-}
+    {
+        "API_PATH": "/path/to/api", #the URL at which Ember can find your REST API
+        "EMBER_APP_NAME": "some-name", #the name ember-cli should give your app
+        "EMBER_APP_PATH": "client", # optional: the filesystem path, relative to
+                                    # BASE_DIR, where the Ember project should be
+                                    # stored
+        "MODELS_TO_SYNC": ["auth.*", "myapp.Widget"] #  models to use when
+                                                        generating Ember models
+    }
 
 Note: MODELS_TO_SYNC takes a list of model specifiers, each either
 "[appname].[ModelClass]" or "[appname].*" (the latter selects all models in the
