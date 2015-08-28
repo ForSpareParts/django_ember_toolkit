@@ -12,7 +12,8 @@ SEPARATOR = '---------------------------------------------------------------'
 DEFAULT_SETTINGS = {
     'EMBER_APP_NAME': None,
     'API_ENDPOINT': None,
-    'EMBER_APP_PATH': 'client'
+    'EMBER_APP_PATH': 'client',
+    'MODELS_TO_SYNC': None
 }
 
 
