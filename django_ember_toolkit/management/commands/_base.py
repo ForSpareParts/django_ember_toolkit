@@ -1,3 +1,4 @@
+import importlib
 from os.path import abspath, join
 import subprocess
 
@@ -14,7 +15,8 @@ DEFAULT_SETTINGS = {
     'EMBER_APP_NAME': None,
     'API_PATH': None,
     'EMBER_APP_PATH': 'client',
-    'MODELS_TO_SYNC': None
+    'MODELS_TO_SYNC': None,
+    'SERIALIZER_NAMESPACE': None
 }
 
 
@@ -108,3 +110,27 @@ class EmberCommand(BaseCommand):
                     model_set.add(Model)
 
         return model_set
+
+    def get_or_create_module(self, dotpath):
+        '''Create the specified module if it doesn't exist, then import and
+        return it.'''
+
+        try:
+            return importlib.import_module(dotpath)
+        except ImportError:
+            parent_dotpath, _, module_name = dotpath.rpartition('.')
+            parent_module = importlib.import_module(parent_dotpath)
+
+            # this should capture either __init__.py or __init__.pyc
+            parent_dir_path = parent_module.__file__.rpartition(
+                '/__init__.py')[0]
+            module_file_path = join(parent_dir_path, module_name + '.py')
+
+            self.notify('Module {} could not be found. Creating at {}'.format(
+                dotpath,
+                colored(module_file_path, 'green')))
+
+            with open(module_file_path, 'w+') as module_file:
+                module_file.write('')
+
+            return importlib.import_module(dotpath)
