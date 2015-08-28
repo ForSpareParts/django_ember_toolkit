@@ -1,8 +1,6 @@
-import subprocess
-
 from django.apps import apps as django_apps
+from django.core.management import call_command
 from django.db.models import fields
-from django.conf import settings
 from inflection import camelize, dasherize, underscore
 
 from ._base import EmberCommand
@@ -94,6 +92,7 @@ class Command(EmberCommand):
 
     def handle(self, *args, **options):
         self.assert_required_settings('EMBER_APP_PATH', 'MODELS_TO_SYNC')
+        call_command('generate_ember_config')
 
         model_name_set = set(self.get_setting('MODELS_TO_SYNC'))
         model_set = set()
