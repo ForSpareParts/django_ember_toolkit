@@ -1,6 +1,7 @@
 from os.path import abspath, join
 import subprocess
 
+from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
@@ -90,3 +91,20 @@ class EmberCommand(BaseCommand):
 
         with open(config_path, 'w') as config_file:
             config_file.write(config_source)
+
+    def get_sync_model_set(cls):
+        '''Return a set containing the actual Model class objects that are
+        specified by MODELS_TO_SYNC.'''
+
+        for app_config in django_apps.get_app_configs():
+            model_name_set = set(cls.get_setting('MODELS_TO_SYNC'))
+            model_set = set()
+
+            for Model in app_config.get_models():
+                key = Model._meta.app_label + '.' + Model.__name__
+                app_star = Model._meta.app_label + '.*'
+
+                if key in model_name_set or app_star in model_name_set:
+                    model_set.add(Model)
+
+        return model_set
