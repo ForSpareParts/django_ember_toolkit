@@ -43,7 +43,8 @@ EXTERNAL_APPS = [
 
 INTERNAL_APPS = [
     'django_ember_toolkit',
-    'django_ember_toolkit.tests.test_app',
+    'django_ember_toolkit.tests.test_app_a',
+    'django_ember_toolkit.tests.test_app_b',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS

@@ -60,7 +60,7 @@ class EmberCommand(BaseCommand):
     def run_ember_command(self, cmd_name, *args, **kwargs):
         '''Run the named ember in the project's FULL_EMBER_PATH. Any args and kwargs
         will be converted into positional and named arguments respectively
-        (booleans are assumed to be "boolean positional arguments")
+        (booleans are assumed to be "boolean named arguments")
 
         e.g.: run_ember_command('generate', 'route', 'foobar', pod=True)
         becomes: ember generate route foobar --pod

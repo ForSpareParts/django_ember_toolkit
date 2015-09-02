@@ -10,4 +10,5 @@ south
 tox
 django
 django-compat
+djangorestframework
 six
