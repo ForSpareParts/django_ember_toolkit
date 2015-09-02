@@ -28,10 +28,6 @@ STATICFILES_DIRS = (
     os.path.join(APP_ROOT, 'static'),
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(APP_ROOT, 'tests/test_app/templates'),
-)
-
 EXTERNAL_APPS = [
     'django.contrib.admin',
     'django.contrib.admindocs',
